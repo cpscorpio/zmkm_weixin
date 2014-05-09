@@ -10,6 +10,7 @@ var qrcode = require('./lib/qrcode');
 var consts = require('./lib/consts/consts');
 var token = require('./lib/token');
 var socket = require('./lib/util/socket')
+var utils = require("util/utils");
 
 var routes = module.exports = function (app) {
     this.app = app;
@@ -29,7 +30,33 @@ var routes = module.exports = function (app) {
 
 routes.qrcallback = function ( req, res)
 {
+    //扫码回调
+    log.info(req.body);
+    var user_id = req.body.user_id;
+    var code = req.body.qr_key;
+    var is_subscribe = req.body.is_subscribe;
 
+    token.check( code, function ( err, data)
+    {
+        log.info(data);
+        if( data && data.token == code)
+        {
+
+            this.app.set(data.door, "1");
+            log.info("ok ! to check user","door", data.door);
+            req.session.door = {door_id:data.door};
+            res.render("doOpen");
+        }
+        else
+        {
+            console.log("error",err,data);
+            //TODO error page
+            res.render("error",{
+                header:"访问链接失效",
+                info:"请重新扫码开门！"
+            });
+        }
+    });
 }
 routes.set = function ( req, res)
 {
@@ -88,17 +115,11 @@ routes.index = function(req, res){
         token.getToken(req.session.door.door_id, function (token)
         {
             var exp_time = token.exp_time - Math.ceil(new Date().getTime()/1000);
-            var str = "http://" + this.app.get('host_') +":"+ this.app.get('port') + '/Open'; //TODO STR的获取
-            log.info("token",token.token,"exp_time",exp_time);
-            str = str + token.token;
-            var qr = qrcode.qrcode(4, 'M');
-            qr.addData(str);  // 解决中文乱码
-            qr.make();
 
-            var src = qr.createImgTag(5, 10);  // 获取base64编码图片字符串
-            src = src.match(/src="([^"]*)"/)[1];  // 获取图片src数据
+            log.info("token",token.token,"exp_time",exp_time);
+
             res.render("index",{
-                    url:src,//"/image.jpg",//"http://" + this.app.get('host_') +":"+ this.app.get('port') +"/image",
+                    url:token.qr_url,//"/image.jpg",//"http://" + this.app.get('host_') +":"+ this.app.get('port') +"/image",
                     time:exp_time,
                     title:"门禁",
                     door_id:req.session.door.door_id
@@ -122,17 +143,10 @@ routes.image = function( req, res)
         {
             var time = token.exp_time - now;
             console.log('exp_time : ' ,time,"token",token.token);
-            var str = "http://" + this.app.get('host_') +":"+ this.app.get('port') + '/Open';
-            str = str + token.token;
-            var qr = qrcode.qrcode(4, 'M');
-            qr.addData(str);  // 解决中文乱码
-            qr.make();
 
-            var src = qr.createImgTag(5, 10);  // 获取base64编码图片字符串
-            src = src.match(/src="([^"]*)"/)[1];  // 获取图片src数据
             res.send({
                 exp_time:time,
-                src:src
+                src:token.qr_url
             });
         });
     }
@@ -171,32 +185,6 @@ routes.isUsed = function( req, res)
 
 }
 
-routes.status = function( req, res)
-{
-    log.info(req.path);
-    if(req.params && req.params["uuid"])
-    {
-        log.info("uuid", req.params['uuid']);
-        var uuid = req.params["uuid"];
-        var status = this.app.get(uuid);
-        if( status)
-        {
-            if(status == "1")
-            {
-                this.app.set(uuid,"0");
-                res.send("open",200);
-                return ;
-            }
-        }
-        else
-        {
-            status = "0";
-            this.app.set(uuid,"0");
-        }
-    }
-    res.send("0",200);
-
-}
 routes.doOpen = function( req, res)
 {
     if(req.session.door && req.body)
@@ -290,6 +278,8 @@ routes.doOpen = function( req, res)
     }
     delete req.session.door;
 }
+
+
 routes.open = function( req, res)
 {
     log.info(req.path,req.params['code']);
