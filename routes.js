@@ -38,7 +38,7 @@ routes.qrcallback = function ( req, res)
 
     token.check( code, function ( err, data)
     {
-        log.info(data);
+        log.info(JSON.stringify(data));
         if( data && data.token == code)
         {
             this.app.set(data.door, "1");
