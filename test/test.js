@@ -7,6 +7,10 @@ logger.error('test3');
 
 var utils = require('../lib/util/utils');
 
+utils.post("http://127.0.0.1:4000/qrcallback", null, function (da)
+{
+    console.log(da);
+});
 //utils.get("http://v.ubox.cn/wx_open/interface_load_wx_qr?app_name=gift&qr_key=123&ex_time=300",function ( data)
 //{
 //    if ( typeof data == "string")

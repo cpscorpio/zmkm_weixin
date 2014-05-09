@@ -44,16 +44,13 @@ routes.qrcallback = function ( req, res)
             this.app.set(data.door, "1");
             log.info("ok ! to check user","door", data.door);
             req.session.door = {door_id:data.door};
-            res.render("doOpen");
+            res.send("0");
         }
         else
         {
             console.log("error",err,data);
             //TODO error page
-            res.render("error",{
-                header:"访问链接失效",
-                info:"请重新扫码开门！"
-            });
+            res.send("error");
         }
     });
 }
