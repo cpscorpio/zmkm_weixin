@@ -30,7 +30,8 @@ var routes = module.exports = function (app) {
 routes.qrcallback = function ( req, res)
 {
     //扫码回调
-    log.info(req.body);
+    log.info(JSON.stringify( req.body));
+
     var user_id = req.body.user_id;
     var code = req.body.qr_key;
     var is_subscribe = req.body.is_subscribe;
@@ -40,7 +41,6 @@ routes.qrcallback = function ( req, res)
         log.info(data);
         if( data && data.token == code)
         {
-
             this.app.set(data.door, "1");
             log.info("ok ! to check user","door", data.door);
             req.session.door = {door_id:data.door};
