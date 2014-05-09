@@ -20,13 +20,17 @@ var routes = module.exports = function (app) {
     app.get('/Open:code',routes.open);  //验证界面
     app.post('/Open', routes.doOpen);  //扫码开门
     app.post('/isUsed',routes.isUsed);
-
+    app.post('/qrcallback', routes.qrcallback);
     //test
     app.get('/view',routes.view);
     app.get('/test', routes.test);
     return app.router;
 }
 
+routes.qrcallback = function ( req, res)
+{
+
+}
 routes.set = function ( req, res)
 {
     console.log(req.query);
