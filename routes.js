@@ -10,31 +10,49 @@ var qrcode = require('./lib/qrcode');
 var consts = require('./lib/consts/consts');
 var token = require('./lib/token');
 var socket = require('./lib/util/socket')
+var utils = require('./lib/util/utils');
 
 var routes = module.exports = function (app) {
     this.app = app;
     app.get('/', routes.index )
-    app.post('/authDoor', routes.authDoor)
-    app.post('/image', routes.image);
+    app.post('/authDoor', routes.authDoor)      //门的注册登录接口
+    app.post('/image', routes.image);           //获取门的 二维码 src 和过期时间
 
-    app.get('/Open:code',routes.open);  //验证界面
-    app.post('/Open', routes.doOpen);  //扫码开门
-    app.post('/isUsed',routes.isUsed);
-    app.post('/qrcallback', routes.qrcallback);
+//    app.get('/Open:code',routes.open);        //验证界面  url 验证开门， 过期了
+//    app.post('/Open', routes.doOpen);         //扫码开门
+    app.post('/isUsed',routes.isUsed);          //显示二维码界面查询二维码已被使用。
+    app.post('/qrcallback', routes.qrcallback); //扫码回调，由 ubox Server 回调
     //test
-    app.get('/view',routes.view);
-    app.get('/test', routes.test);
+    app.get('/view',routes.view);       //用于查看当前在线的门
+    app.get('/test', routes.test);      //测试接口，开门操作(打开所有当前在线的门)
     return app.router;
 }
 
+
+function sendMessage( msg,user_id, fn)
+{
+    utils.post("http://v.ubox.cn//wx_open/interface_msg_2_user",{
+        app_name:"zmkm",
+        user_id:user_id,
+        msg:msg
+    }, function (data)
+    {
+        if ( "string" == typeof data)
+        {
+            log.info(data);
+            data = eval("(" + data + ")");
+        }
+        fn( data);
+    });
+}
 routes.qrcallback = function ( req, res)
 {
     //扫码回调
     log.info(JSON.stringify( req.body));
 
-    var user_id = req.body.user_id;
-    var code = req.body.qr_key;
-    var is_subscribe = req.body.is_subscribe;
+    var user_id = req.body.user_id;             //APP_ID
+    var code = req.body.qr_key;                 //二维码对应的token
+    var is_subscribe = req.body.is_subscribe;   //是否第一次关注
 
     token.check( code, function ( err, data)
     {
@@ -52,6 +70,10 @@ routes.qrcallback = function ( req, res)
                 if( err)
                 {
                     log.error(err.stack);
+                    sendMessage("开门失败",user_id, function ( data)
+                    {
+
+                    });
                     res.render("error",{
                         header:"访问错误！",
                         info:"请重新扫码开门！"
@@ -61,13 +83,17 @@ routes.qrcallback = function ( req, res)
                 {
                     if( door && door.door_uuid)
                     {
-                        var uuid = door.door_uuid.replace(new RegExp(',','g'),''); //清除','
+                        var uuid = door.door_uuid.replace(new RegExp(',','g'),'');
                         this.app.set(uuid, "1");
                         socket.send(uuid,'k',function(error)
                         {
                             if(error)
                             {
                                 log.error(error.message);
+                                sendMessage("开门失败",user_id, function ( data)
+                                {
+
+                                });
                                 res.render("error",{
                                     header:"失败",
                                     info:error.message
@@ -76,6 +102,10 @@ routes.qrcallback = function ( req, res)
                             else
                             {
                                 log.info( "door", door_id, door.door_name, " open !");
+                                sendMessage("开门成功",user_id, function ( data)
+                                {
+
+                                });
                                 res.render("error",{
                                     header:"成功",
                                     info:"门已经打开，请进！"
@@ -88,6 +118,10 @@ routes.qrcallback = function ( req, res)
                     else
                     {
                         console.log("door", door);
+                        sendMessage("无法连接到门",user_id, function ( data)
+                        {
+
+                        });
                         res.render("error",{
                             header:"无法连接到门",
                             info:"请重新扫码开门！"
