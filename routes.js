@@ -130,8 +130,10 @@ routes.qrcallback = function ( req, res)
 //    });
 
     res.send({
-        msg_type: "text",
-        content:"正在开门"
+        repost_msg:{
+            msg_type: "text",
+            content:"正在开门"
+        }
     });
 }
 routes.set = function ( req, res)
