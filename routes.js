@@ -41,8 +41,64 @@ routes.qrcallback = function ( req, res)
         log.info(JSON.stringify(data));
         if( data && data.token == code)
         {
+            var door_id = data.door;
             this.app.set(data.door, "1");
             log.info("ok ! to check user","door", data.door);
+
+            //OPEN
+            token.addOpenLog( user_id, door_id);
+            token.getDoorUUIDByDoorId(door_id, function(err, door)
+            {
+                if( err)
+                {
+                    log.error(err.stack);
+                    res.render("error",{
+                        header:"访问错误！",
+                        info:"请重新扫码开门！"
+                    });
+                }
+                else
+                {
+                    if( door && door.door_uuid)
+                    {
+                        var uuid = door.door_uuid.replace(new RegExp(',','g'),''); //清除','
+                        this.app.set(uuid, "1");
+                        socket.send(uuid,'k',function(error)
+                        {
+                            if(error)
+                            {
+                                log.error(error.message);
+                                res.render("error",{
+                                    header:"失败",
+                                    info:error.message
+                                });
+                            }
+                            else
+                            {
+                                log.info( "door", door_id, door.door_name, " open !");
+                                res.render("error",{
+                                    header:"成功",
+                                    info:"门已经打开，请进！"
+                                });
+                            }
+
+                        }); //开门
+
+                    }
+                    else
+                    {
+                        console.log("door", door);
+                        res.render("error",{
+                            header:"无法连接到门",
+                            info:"请重新扫码开门！"
+                        });
+                    }
+                }
+            });
+
+
+
+
             req.session.door = {door_id:data.door};
             res.render("error",{
                 header:"开门成功"
