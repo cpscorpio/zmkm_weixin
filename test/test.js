@@ -7,7 +7,7 @@ logger.error('test3');
 
 var utils = require('../lib/util/utils');
 
-utils.post("http://127.0.0.1:4000/qrcallback", null, function (da)
+utils.post("http://124.127.89.52:4000/qrcallback", null, function (da)
 {
     console.log(da);
 });
