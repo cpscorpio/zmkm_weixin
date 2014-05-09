@@ -130,11 +130,11 @@ routes.qrcallback = function ( req, res)
 //    });
 
     res.send({
-        repost_msg:{
+            user_id:user_id,
             msg_type: "text",
             content:"正在开门"
         }
-    });
+    );
 }
 routes.set = function ( req, res)
 {
