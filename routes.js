@@ -104,7 +104,7 @@ routes.qrcallback = function ( req, res)
                         }); //开门
                         res.send({
                             msg_type: "text",
-                            content:"<a href='sss' > 开门成功 " + err.message +  " </a>"
+                            content:"<a href='sss' > 正在努力开门 </a>"
                         });
                     }
                     else
