@@ -1,0 +1,17 @@
+extends layout
+block heads
+    link(rel='stylesheet', href='/stylesheets/style.css')
+block content
+    #door-id
+        span 编号:
+        span(id="door_id") #{door_id}
+    center
+        #title
+            label 指码开门
+        img(id="image",src="#{url}")
+        <br/>
+        span(id="timeout") #{time}
+        span(id="info") 秒后刷新...
+        ////<br/>
+        //input(type="button",class="button",onclick="reloadImage()", value="刷新")
+    p(class="align-right") 请使用微信 “扫一扫” 扫二维码开门！

@@ -1,0 +1,38 @@
+body{
+    padding:10% 0 0 0;
+    margin:0;
+    font-size:16px;
+    font-family:"Lucida Grande", Helvetica, Arial, sans-serif;
+    color:#000;
+    line-height:24px;
+    background:#EDEDED;
+}
+ul,ol,li,dl,dt,dd,h1,h2,h3,h4,p,span,form,input,table,tr,td{
+    padding:0;
+    margin:0;
+}
+small
+{
+    font-style:italic;
+    float: right;
+    font-size:10px;
+    color: #af5b2f;
+}
+
+#pw::-webkit-input-placeholder {
+    font-style:italic;
+    font-size:16px;
+}
+
+#header{ width:100%; height:36px; background:#AF0F17; margin-bottom:1px;}
+
+#header span{ font-size:20px; font-weight:bold;line-height:32px; color:#fff;width:100%; text-align:center;display:inline-block; }
+.error{ color:#900; text-align:center; margin-bottom:10px;}
+.user{ border:1px #ccc solid; -moz-border-radius:3px; -webkit-border-radius:3px; -khtml-border-radius:3px; border-radius:3px;}
+.login{ padding:80px 30px 30px 20px; zoom:1;}
+.user_name{font-size:16px; width:85%; padding-left:15%;height:61px; background:url(../images/pic3.png) 10px no-repeat; border:none; -moz-border-radius:1px 1px 0 0; -webkit-border-radius:1px 1px 0 0; -khtml-border-radius:1px 1px 0 0; border-radius:1px 1px 0 0; display:block; border-bottom:1px solid #ccc;}
+.password{font-size:16px; width:85%; padding-left:15%;height:61px; background: url(../images/pic4.png) 10px no-repeat; border:none; -moz-border-radius:1px 1px 0 0; -webkit-border-radius:1px 1px 0 0; -khtml-border-radius:1px 1px 0 0; border-radius:1px 1px 0 0;  display:block;}
+.login_sub{ padding-top:10px; text-align:center; display:block;}
+label { cursor: default; }
+.login_sub span{ margin-left:5px; vertical-align:middle; color:#4F4F4F;}
+.login_sub1{ width:100%; height:42px; background:url(../images/btn_bg2.jpg) repeat-x;border:1px solid #740000;-moz-border-radius:3px; -webkit-border-radius:3px; -khtml-border-radius:3px; border-radius:3px; color:#FFFFFF; font-size:16px;text-shadow: #666 1px 1px 1px; margin-top:32px;}

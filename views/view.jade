@@ -1,0 +1,32 @@
+//
+   Created by chenpeng on 14-3-31.
+extends layout
+block heads
+    link(rel='stylesheet', href='/stylesheets/style.css')
+block content
+    #main-content
+        table
+            thead
+                tr
+                    td ID
+                    td name
+                    td ip
+                    td port
+                    td startTime
+                    td upTime(m)
+                    td endTime
+                    td flag
+                    td error
+
+            tbody
+                - for( var i = 0; i< list.length; i++)
+                    tr
+                        td #{list[i].id}
+                        td #{list[i].name}
+                        td #{list[i].ip}
+                        td #{list[i].port}
+                        td #{list[i].begin}
+                        td #{list[i].upTime}
+                        td #{list[i].endTime}
+                        td #{list[i].flag}
+                        td #{list[i].error}

@@ -1,0 +1,170 @@
+body {
+    padding: 0 0 0 0;
+    margin:0;
+    font-size:16px;
+    font-family:"Lucida Grande", Helvetica, Arial, sans-serif;
+    color:#000;
+    line-height:24px;;
+}
+#title
+{
+    padding: 18% 0 0 0;
+    display: block;
+}
+#door-id
+{
+    padding: 0 0 0 0;
+    float: right;
+    display: block;
+}
+a {
+    color: #00B7FF;
+}
+@media screen and (orientation:portrait) {
+    img {
+        width: 100%;
+    }
+}
+@media screen and (orientation:landscape) {
+    img {
+        min-height: 62%;
+        width: auto;
+    }
+}
+
+
+
+a              { color: #57a000; text-decoration: none; }
+a:hover     { color: #000; }
+a:active     { color: #777; }
+a:focus     { outline: 0.1em; }
+
+strong       { font-weight: bold; color: #333; }
+span{
+    font-size: 1.2em;
+}
+label
+{
+    font-size: 2.4em;
+}
+small   		{ font-size: 0.85em; }
+
+pre           { font-family: monospace; }
+
+p {
+    padding: 0.5em 0 1em 0;
+    line-height: 1.2em;
+}
+
+.clear {
+    clear: both;
+}
+.text-right{
+    text-align: right;
+}
+.text-center{
+    text-align: center;
+}
+.align-left {
+    float: left;
+}
+
+.align-right {
+    float: right;
+}
+
+/************ Button ************/
+.button {
+    font-family: Verdana, Arial, sans-serif;
+    display: inline-block;
+    background: #459300 url('../images/bg-button-green.gif') top left repeat-x !important;
+    border: 0.1em solid #459300 !important;
+    padding: 0.4em 0.7em 0.4em 0.7em !important;
+    color: #fff !important;
+    font-size: 1em !important;
+    cursor: pointer;
+}
+
+.button:hover {
+    text-decoration: underline;
+}
+
+.button:active {
+    padding: 0.5em 0.7em 0.3em 0.7em !important;
+}
+
+a.remove-link {
+    color: #bb0000;
+}
+
+a.remove-link:hover {
+    color: #000;
+}
+
+#footer {
+    border-top: 0.1em solid #ccc;
+    margin: 4em 0 0 0;
+    padding: 2em 0;
+    font-size: 0.1em;
+}
+
+label {
+    display: block;
+    padding: 0 0 1em;
+}
+
+input.text-input,
+select,
+textarea,
+textarea {
+    padding: 0.6em;
+    width: 50%;
+    background: #fff url('../images/bg-form-field.gif') top left repeat-x;
+    border: 0.1em solid #d5d5d5;
+    color: #333;
+}
+
+/************ Table ************/
+
+#main-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#main-content table thead th {
+    font-weight: bold;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+#main-content tbody {
+    border-bottom: 1px solid #ddd;
+}
+
+#main-content tbody tr {
+    background: #fff;
+}
+
+#main-content tbody tr.alt-row {
+    background: #f3f3f3;
+}
+
+#main-content table td,
+#main-content table th {
+    padding: 10px;
+    line-height: 1.3em;
+}
+
+#main-content table tfoot td .bulk-actions {
+    padding: 15px 0 5px 0;
+}
+#main-content table tfoot th {
+    font-weight: bold;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+#main-content table tfoot td .bulk-actions select {
+    padding: 4px;
+    border: 1px solid #ccc;
+}

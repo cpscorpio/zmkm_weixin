@@ -1,0 +1,18 @@
+//
+   Created by chenpeng on 14-3-25.
+
+extends layout
+block heads
+    link(rel='stylesheet', href='/stylesheets/open.css')
+block content
+    #header
+        span 码上开门
+    #main
+        #login
+            .error
+                span(id="err_value")
+            form(id="form1",method="POST", action="/Open")
+                #user
+                    input(id="pw",name="password", type="text", class="password",placeholder="请输入密码")
+                    small 请输入密码，点击 “OPEN” 开门！
+                input(id="sub", type="submit", class="login_sub1", value="OPEN", onclick="return checkform();")

@@ -1,0 +1,11 @@
+//
+   Created by chenpeng on 14-3-25.
+extends layout
+block heads
+    link(rel='stylesheet', href='/stylesheets/auth.css')
+block content
+    center
+        #content
+            label 请输入ID
+            input(id="door_id",type="text",class="text-input")
+            input(id="enter",type="button",class="button",onclick="onEnter()",value="提交")
