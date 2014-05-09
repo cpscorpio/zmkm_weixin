@@ -10,7 +10,6 @@ var qrcode = require('./lib/qrcode');
 var consts = require('./lib/consts/consts');
 var token = require('./lib/token');
 var socket = require('./lib/util/socket')
-var utils = require("util/utils");
 
 var routes = module.exports = function (app) {
     this.app = app;
