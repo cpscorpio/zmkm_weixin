@@ -70,13 +70,9 @@ routes.qrcallback = function ( req, res)
                 if( err)
                 {
                     log.error(err.stack);
-                    sendMessage("开门失败",user_id, function ( data)
-                    {
-
-                    });
-                    res.render("error",{
-                        header:"访问错误！",
-                        info:"请重新扫码开门！"
+                    res.send({
+                        msg_type: "text",
+                        content:"<a href='sss' > 开门失败 " + err.message +  " </a>"
                     });
                 }
                 else
@@ -85,6 +81,7 @@ routes.qrcallback = function ( req, res)
                     {
                         var uuid = door.door_uuid.replace(new RegExp(',','g'),'');
                         this.app.set(uuid, "1");
+
                         socket.send(uuid,'k',function(error)
                         {
                             if(error)
@@ -94,10 +91,6 @@ routes.qrcallback = function ( req, res)
                                 {
 
                                 });
-                                res.render("error",{
-                                    header:"失败",
-                                    info:error.message
-                                });
                             }
                             else
                             {
@@ -106,45 +99,32 @@ routes.qrcallback = function ( req, res)
                                 {
 
                                 });
-                                res.render("error",{
-                                    header:"成功",
-                                    info:"门已经打开，请进！"
-                                });
                             }
 
                         }); //开门
-
+                        res.send({
+                            msg_type: "text",
+                            content:"<a href='sss' > 开门成功 " + err.message +  " </a>"
+                        });
                     }
                     else
                     {
                         console.log("door", door);
-                        sendMessage("无法连接到门",user_id, function ( data)
-                        {
-
-                        });
-                        res.render("error",{
-                            header:"无法连接到门",
-                            info:"请重新扫码开门！"
+                        res.send({
+                            msg_type: "text",
+                            content:"<a href='sss' > 开门失败门不在 " + err.message +  " </a>"
                         });
                     }
                 }
-            });
-
-
-
-
-            req.session.door = {door_id:data.door};
-            res.render("error",{
-                header:"开门成功"
             });
         }
         else
         {
             console.log("error",err,data);
             //TODO error page
-            res.render("error",{
-                header:"访问链接失效",
-                info:"请重新扫码开门！"
+            res.send({
+                msg_type: "text",
+                content:"<a href='sss' > 开门失败门 " + err.message +  " </a>"
             });
         }
     });
