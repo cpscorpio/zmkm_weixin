@@ -6,4 +6,4 @@
 *.log
 logs/*
 node_modules
-*.sqlite
+lib/database/*.sqlite
