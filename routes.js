@@ -76,6 +76,9 @@ routes.qrcallback = function ( req, res)
             this.app.set(data.door, "1");
             log.info("ok ! to check user","door", data.door);
 
+            //开门
+            res.send(rePostMsg( 200, "扫码成功！正在为您开门"));
+
             //OPEN
             token.addOpenLog( user_id, door_id);
             token.getDoorUUIDByDoorId(door_id, function(err, door)
@@ -87,9 +90,6 @@ routes.qrcallback = function ( req, res)
                 }
                 else
                 {
-                    //开门
-                    res.send(rePostMsg( 200, "正在开门"));
-
                     if( door && door.door_uuid)
                     {
                         var uuid = door.door_uuid.replace(new RegExp(',','g'),'');
