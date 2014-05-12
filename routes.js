@@ -130,11 +130,14 @@ routes.qrcallback = function ( req, res)
 //    });
 
     res.send({
-            user_id:user_id,
-            msg_type: "text",
-            content:"正在开门"
+        code:200,
+        data:{
+            repost_msg:{
+                msg_type: "text",
+                content:"<a href='sss' > 开门失败门不在 " + err.message +  " </a>,从。。。"
+            }
         }
-    );
+    });
 }
 routes.set = function ( req, res)
 {
