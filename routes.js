@@ -97,24 +97,24 @@ routes.qrcallback = function ( req, res)
                             if(error)
                             {
                                 log.error(error.message);
-//                                sendMessage("开门失败",user_id, function ( data)
-//                                {
-//
-//                                });
-                                res.send(rePostMsg( 200, "开门失败"));
+                                sendMessage("开门失败",user_id, function ( data)
+                                {
+
+                                });
+//                                res.send(rePostMsg( 200, "开门失败"));
                             }
                             else
                             {
                                 log.info( "door", door_id, door.door_name, " open !");
-//                                sendMessage("开门成功",user_id, function ( data)
-//                                {
-//
-//                                });
-                                res.send(rePostMsg( 200, "开门成功"));
+                                sendMessage("开门成功",user_id, function ( data)
+                                {
+
+                                });
+//                                res.send(rePostMsg( 200, "开门成功"));
                             }
 
                         }); //开门
-//                        res.send(rePostMsg( code, ""));
+                        res.send(rePostMsg( 100, ""));
                     }
                     else
                     {
