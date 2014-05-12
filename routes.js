@@ -97,7 +97,7 @@ routes.qrcallback = function ( req, res)
                             if(error)
                             {
                                 log.error(error.message);
-                                sendMessage("开门失败，" + err.message,user_id, function ( data)
+                                sendMessage("开门失败，" + error.message,user_id, function ( data)
                                 {
 
                                 });
