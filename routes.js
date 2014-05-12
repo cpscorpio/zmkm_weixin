@@ -87,6 +87,9 @@ routes.qrcallback = function ( req, res)
                 }
                 else
                 {
+                    //开门
+                    res.send(rePostMsg( 200, "正在开门"));
+
                     if( door && door.door_uuid)
                     {
                         var uuid = door.door_uuid.replace(new RegExp(',','g'),'');
@@ -113,8 +116,7 @@ routes.qrcallback = function ( req, res)
 //                                res.send(rePostMsg( 200, "开门成功"));
                             }
 
-                        }); //开门
-                        res.send(rePostMsg( 200, "正在开门"));
+                        });
                     }
                     else
                     {
