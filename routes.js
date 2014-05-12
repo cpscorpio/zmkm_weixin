@@ -97,7 +97,7 @@ routes.qrcallback = function ( req, res)
                             if(error)
                             {
                                 log.error(error.message);
-                                sendMessage("开门失败",user_id, function ( data)
+                                sendMessage("开门失败，" + err.message,user_id, function ( data)
                                 {
 
                                 });
@@ -114,7 +114,7 @@ routes.qrcallback = function ( req, res)
                             }
 
                         }); //开门
-                        res.send(rePostMsg( 100, ""));
+                        res.send(rePostMsg( 200, "正在开门"));
                     }
                     else
                     {
