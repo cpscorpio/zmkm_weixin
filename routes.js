@@ -134,7 +134,7 @@ routes.qrcallback = function ( req, res)
         data:{
             repost_msg:{
                 msg_type: "text",
-                content:"<a href='sss' > 开门失败门不在 " + err.message +  " </a>,从。。。"
+                content:"开门失败门不在 "
             }
         }
     });
