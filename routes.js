@@ -45,6 +45,19 @@ function sendMessage( msg,user_id, fn)
         fn( data);
     });
 }
+
+function rePostMsg(code, message)
+{
+    return {
+        code: code,
+        data:{
+            repost_msg:{
+                msg_type:"text",
+                content:message
+            }
+        }
+    }
+}
 routes.qrcallback = function ( req, res)
 {
     //扫码回调
@@ -54,90 +67,71 @@ routes.qrcallback = function ( req, res)
     var code = req.body.qr_key;                 //二维码对应的token
     var is_subscribe = req.body.is_subscribe;   //是否第一次关注
 
-//    token.check( code, function ( err, data)
-//    {
-//        log.info(JSON.stringify(data));
-//        if( data && data.token == code)
-//        {
-//            var door_id = data.door;
-//            this.app.set(data.door, "1");
-//            log.info("ok ! to check user","door", data.door);
-//
-//            //OPEN
-//            token.addOpenLog( user_id, door_id);
-//            token.getDoorUUIDByDoorId(door_id, function(err, door)
-//            {
-//                if( err)
-//                {
-//                    log.error(err.stack);
-//                    res.send({
-//                        msg_type: "text",
-//                        content:"<a href='sss' > 开门失败 " + err.message +  " </a>"
-//                    });
-//                }
-//                else
-//                {
-//                    if( door && door.door_uuid)
-//                    {
-//                        var uuid = door.door_uuid.replace(new RegExp(',','g'),'');
-//                        this.app.set(uuid, "1");
-//
-//                        socket.send(uuid,'k',function(error)
-//                        {
-//                            if(error)
-//                            {
-//                                log.error(error.message);
+    token.check( code, function ( err, data)
+    {
+        log.info(JSON.stringify(data));
+        if( data && data.token == code)
+        {
+            var door_id = data.door;
+            this.app.set(data.door, "1");
+            log.info("ok ! to check user","door", data.door);
+
+            //OPEN
+            token.addOpenLog( user_id, door_id);
+            token.getDoorUUIDByDoorId(door_id, function(err, door)
+            {
+                if( err)
+                {
+                    log.error(err.stack);
+                    res.send( rePostMsg( 200, "开门失败，" + err.message));
+                }
+                else
+                {
+                    if( door && door.door_uuid)
+                    {
+                        var uuid = door.door_uuid.replace(new RegExp(',','g'),'');
+                        this.app.set(uuid, "1");
+
+                        socket.send(uuid,'k',function(error)
+                        {
+                            if(error)
+                            {
+                                log.error(error.message);
 //                                sendMessage("开门失败",user_id, function ( data)
 //                                {
 //
 //                                });
-//                            }
-//                            else
-//                            {
-//                                log.info( "door", door_id, door.door_name, " open !");
+                                res.send(rePostMsg( 200, "开门失败"));
+                            }
+                            else
+                            {
+                                log.info( "door", door_id, door.door_name, " open !");
 //                                sendMessage("开门成功",user_id, function ( data)
 //                                {
 //
 //                                });
-//                            }
-//
-//                        }); //开门
-//                        res.send({
-//                            msg_type: "text",
-//                            content:"<a href='sss' > 正在努力开门 </a>"
-//                        });
-//                    }
-//                    else
-//                    {
-//                        console.log("door", door);
-//                        res.send({
-//                            msg_type: "text",
-//                            content:"<a href='sss' > 开门失败门不在 " + err.message +  " </a>"
-//                        });
-//                    }
-//                }
-//            });
-//        }
-//        else
-//        {
-//            console.log("error",err,data);
-//            //TODO error page
-//            res.send({
-//                msg_type: "text",
-//                content:"<a href='sss' > 开门失败门 " + err.message +  " </a>"
-//            });
-//        }
-//    });
+                                res.send(rePostMsg( 200, "开门成功"));
+                            }
 
-    res.send({
-        code:200,
-        data:{
-            repost_msg:{
-                msg_type: "text",
-                content:"开门失败门不在 "
-            }
+                        }); //开门
+//                        res.send(rePostMsg( code, ""));
+                    }
+                    else
+                    {
+                        console.log("door", door);
+                        res.send(rePostMsg( 200, "开门失败，没找到门"));
+                    }
+                }
+            });
+        }
+        else
+        {
+            console.log("error",err,data);
+            //TODO error page
+            res.send(rePostMsg(200, "开门失败门" + err ? (", " + err.message) : ""));
         }
     });
+
 }
 routes.set = function ( req, res)
 {
